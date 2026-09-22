@@ -1,133 +1,184 @@
-# Zapret-Universal-Preset
+# Zapret Universal Presets
 
-Готовые пресеты для [Zapret 2](https://github.com/youtubediscord/zapret) (GUI) — обход DPI-блокировок на Windows 11. Десинк применяется **только** к явно заблокированным доменам/спискам, обычный трафик (Steam, Riot, российские сайты) не трогается.
+Готовые универсальные пресеты для **NetZapret** — Windows GUI для работы с Zapret 2.
+
+Репозиторий содержит `.txt`-пресеты, которые можно импортировать и использовать в NetZapret для настройки обхода DPI-блокировок.
+
+> **NetZapret** использует движок и формат пресетов **Zapret 2**, поэтому пресеты из этого репозитория предназначены прежде всего для работы с NetZapret и совместимыми сборками Zapret 2.
 
 ---
 
 ## 🇷🇺 Русский
 
-### Что внутри
+### Что здесь находится
 
-| Файл | Описание |
-|---|---|
-| `Universal_V2_1.txt` | Основной пресет. Стабильный десинк для YouTube, Discord (текст+звонки), соцсетей, AI-сервисов, торрент-трекеров. |
-| `Universal_V2_1_voice_ALT.txt` | Альтернатива для тех, у кого **текст в Discord работает, а голос — нет**. Меняет стратегию для голосовых пакетов (STUN/UDP): `udplen` + `quic2` вместо `quic_google`. |
+Здесь публикуются готовые пресеты для NetZapret.
 
-Оба пресета покрывают:
-- YouTube / googlevideo (TCP + QUIC)
-- Discord (текст, обновления, медиа, голос/STUN)
-- Facebook, Instagram, Twitter/X, LinkedIn
-- ChatGPT, Gemini, Notion, Claude, DeepSeek
-- RuTracker, rutor и другие торрент-ресурсы
-- Riot / Valorant / LoL
-- Список Russia blacklist
+Основной пресет — **Universal V9**. Он предназначен для универсального использования и содержит правила для различных сервисов и протоколов.
 
-RU-сайты и адреса из `ipset-exclude.txt` десинку не подвергаются (`pass`).
+### Пресеты
 
-### ⚠️ WhatsApp, RuTracker, LinkedIn — под полной блокировкой
+| Файл                           | Описание                                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `Universal_V9.txt`             | Основной универсальный пресет для NetZapret.                                                                        |
+| `Universal_V2_1.txt`           | Предыдущая версия универсального пресета.                                                                           |
+| `Universal_V2_1_voice_ALT.txt` | Альтернативная версия V2.1 для случаев, когда Discord работает в текстовом режиме, но возникают проблемы с голосом. |
 
-Эти сервисы блокируются не тем способом, который лечит десинк, поэтому даже с пресетом они могут не открыться:
+### Что покрывают универсальные пресеты
 
-- **RuTracker** — блокировка на уровне **DNS** (провайдер отдаёт заглушку `81.200.2.238` вместо реального Cloudflare-адреса `104.21.32.39`). Десинк тут бессилен — нужно включить **DNS-over-HTTPS** в GUI Zapret (раздел "Настройка DNS"). После этого сработает тот же multidisorder, что пробивает LinkedIn.
-- **LinkedIn** — блокировка полная (IP+DNS+DPI), доступность нестабильна даже с десинком и DoH.
-- **WhatsApp** — под полной блокировкой на уровне провайдера, десинк не помогает.
+В зависимости от версии пресета правила рассчитаны на:
 
-### Установка Zapret 2 с нуля
+* YouTube / googlevideo
+* Discord — текст, медиа и голосовой трафик
+* Facebook / Instagram / Twitter(X) / LinkedIn
+* ChatGPT / Gemini / Notion / Claude / DeepSeek
+* RuTracker / rutor и другие торрент-ресурсы
+* Riot / Valorant / League of Legends
+* различные домены из Russia blacklist
+* TCP, TLS, QUIC, UDP и другие необходимые протоколы
 
-1. Скачайте GUI-сборку с [github.com/youtubediscord/zapret](https://github.com/youtubediscord/zapret) — раздел релизов, либо `ZapretSetup.exe` по ссылке из шапки репозитория.
-2. Запустите установщик — WinDivert ставится вместе с программой.
-3. После установки Zapret появится в меню "Пуск".
-4. Запускайте GUI **от имени администратора** (обязательно — WinDivert работает на уровне драйвера).
+Российские сайты и адреса из исключений не должны обрабатываться десинком без необходимости.
 
-### Как поставить пресет
+---
 
-1. Скачайте нужный `.txt`-файл из этого репозитория.
-2. Положите его в папку `presets` внутри директории установки Zapret 2.
-3. В GUI откройте список пресетов и выберите `Universal V2.1` (или `V2.1 voice ALT`).
-4. Нажмите "Запустить" / "Start".
-5. Проверьте работу через встроенный BlockCheck или вручную (открыть YouTube, Discord и т.д.).
+## NetZapret
 
-### Какой пресет выбрать
+Для использования пресетов рекомендуется **NetZapret**:
 
-- **По умолчанию:** `Universal_V2_1.txt`.
-- **Если в Discord пишет, но не звонит (нет звука/картинки в войсе):** переключитесь на `Universal_V2_1_voice_ALT.txt`.
+[RixyPow/netzapret](https://github.com/RixyPow/netzapret?utm_source=chatgpt.com)
 
-### Zapret2 + Happ VPN
+NetZapret предоставляет графический интерфейс для настройки и запуска Zapret 2, поэтому отдельная ручная настройка команд и параметров не требуется.
 
-Использую связку Zapret 2 и Happ VPN — VPN включён только для выбранных приложений, а не глобально, поэтому Zapret продолжает обрабатывать остальной трафик напрямую.
+### Как установить пресет
 
-### Структура правил (кратко)
+1. Установите NetZapret.
+2. Скачайте нужный `.txt`-пресет из этого репозитория.
+3. Импортируйте пресет через NetZapret.
+4. Выберите его в списке пресетов.
+5. Запустите NetZapret.
+6. Проверьте работу нужных сервисов.
 
-Каждый блок `--new` — отдельное правило для конкретного домена/списка/протокола. Основные стратегии:
-- `multidisorder` — для TCP/TLS ClientHello (YouTube, соцсети, AI-сервисы, торренты)
-- `send + syndata` — для Discord (текст/медиа)
-- `fake` (blob quic/stun) — для UDP/QUIC/голоса
+Для начала рекомендуется использовать **Universal V9**.
 
-### Дисклеймер
+---
 
-Пресеты предоставляются "как есть", для образовательных целей и в рамках использования интернета в личных целях. Автор не несёт ответственности за использование, противоречащее законодательству вашей страны.
+## Zapret 2
+
+Пресеты основаны на формате и возможностях **Zapret 2**.
+
+Если вы используете оригинальный Zapret 2 или другую GUI-сборку, совместимость конкретного пресета зависит от используемых в нём параметров и правил.
+
+Оригинальный проект:
+
+[Zapret 2](https://github.com/youtubediscord/zapret?utm_source=chatgpt.com)
+
+---
+
+## ⚠️ Если какой-то сервис всё равно не работает
+
+Работа пресета зависит от конкретного провайдера, типа блокировки и текущей конфигурации сети.
+
+Десинк не решает все виды блокировок. Например, проблемы на уровне DNS или IP могут потребовать дополнительных настроек.
+
+Если после запуска пресета сервис не работает:
+
+1. Проверьте DNS.
+2. Запустите диагностику/BlockCheck.
+3. Попробуйте другой пресет.
+4. Проверьте, воспроизводится ли проблема без VPN или другого сетевого ПО.
+5. Убедитесь, что используется актуальная версия NetZapret и пресета.
+
+---
+
+## Структура правил
+
+Пресеты состоят из отдельных блоков правил `--new`, каждый из которых предназначен для определённых доменов, списков или протоколов.
+
+В зависимости от пресета могут использоваться стратегии:
+
+* `multidisorder` — обработка TCP/TLS-трафика;
+* `send` / `syndata` — отдельные сценарии для TCP-трафика;
+* `fake` — работа с QUIC/UDP и другими протоколами;
+* дополнительные правила для Discord, YouTube и других сервисов.
+
+Конкретный набор правил может меняться между версиями пресета.
+
+---
+
+## Версии
+
+### Universal V9
+
+Текущая основная версия универсального пресета.
+
+Рекомендуется начинать именно с неё.
+
+### Universal V2.1
+
+Предыдущая версия, оставленная для совместимости и сравнения.
+
+### Universal V2.1 Voice ALT
+
+Альтернативный вариант V2.1 с изменённой обработкой голосового трафика Discord.
+
+---
+
+## Дисклеймер
+
+Пресеты предоставляются **«как есть»** и предназначены для личного и образовательного использования.
+
+Результат работы зависит от провайдера, сети, используемой версии NetZapret/Zapret 2 и текущих методов блокировки.
+
+Пользователь самостоятельно отвечает за соблюдение законодательства своей юрисдикции.
 
 ---
 
 ## 🇬🇧 English
 
-### Contents
+### About
 
-| File | Description |
-|---|---|
-| `Universal_V2_1.txt` | Main preset. Stable desync rules for YouTube, Discord (text + voice), social media, AI services, torrent trackers. |
-| `Universal_V2_1_voice_ALT.txt` | Alternative for users whose **Discord text works but voice doesn't**. Changes the strategy for voice packets (STUN/UDP): `udplen` + `quic2` instead of `quic_google`. |
+Ready-to-use universal presets for **NetZapret**, a Windows GUI for working with Zapret 2.
 
-Both presets cover:
-- YouTube / googlevideo (TCP + QUIC)
-- Discord (text, updates, media, voice/STUN)
-- Facebook, Instagram, Twitter/X, LinkedIn
-- ChatGPT, Gemini, Notion, Claude, DeepSeek
-- RuTracker, rutor and other torrent sites
-- Riot / Valorant / LoL
-- Russia blacklist domains
+This repository contains `.txt` presets designed primarily for use with NetZapret and compatible Zapret 2 builds.
 
-RU sites and addresses from `ipset-exclude.txt` are left untouched (`pass`) — no unnecessary desync on domestic traffic.
+### Presets
 
-### ⚠️ WhatsApp, RuTracker, LinkedIn — fully blocked
+| File                           | Description                                                                              |
+| ------------------------------ | ---------------------------------------------------------------------------------------- |
+| `Universal_V9.txt`             | Current main universal preset for NetZapret.                                             |
+| `Universal_V2_1.txt`           | Previous version of the universal preset.                                                |
+| `Universal_V2_1_voice_ALT.txt` | Alternative V2.1 preset for cases where Discord text works but voice traffic has issues. |
 
-These services are blocked in a way desync alone doesn't fix, so they may still fail even with the preset running:
+### NetZapret
 
-- **RuTracker** — blocked at the **DNS level** (your ISP's resolver returns a dead IP `81.200.2.238` instead of the real Cloudflare address `104.21.32.39`). No desync fixes a bad DNS answer — enable **DNS-over-HTTPS** in the Zapret GUI (DNS settings section). Once enabled, the same multidisorder strategy that unblocks LinkedIn will work here too.
-- **LinkedIn** — fully blocked (IP+DNS+DPI); availability stays inconsistent even with desync and DoH.
-- **WhatsApp** — fully blocked at the ISP level; desync doesn't help.
+Recommended GUI for using these presets:
 
-### Installing Zapret 2 from scratch
+[RixyPow/netzapret](https://github.com/RixyPow/netzapret?utm_source=chatgpt.com)
 
-1. Download the GUI build from [github.com/youtubediscord/zapret](https://github.com/youtubediscord/zapret) — releases section, or `ZapretSetup.exe` linked from the repo's README.
-2. Run the installer — WinDivert is bundled and installed automatically.
-3. After install, Zapret appears in the Start menu.
-4. Run the GUI **as Administrator** (required — WinDivert operates at the driver level).
+Download the preset, import it into NetZapret, select it, and start the service.
 
-### Installing a preset
+### Zapret 2
 
-1. Download the desired `.txt` file from this repo.
-2. Place it in the `presets` folder inside your Zapret 2 installation directory.
-3. Open the preset list in the GUI and select `Universal V2.1` (or `V2.1 voice ALT`).
-4. Click Start.
-5. Test using the built-in BlockCheck or manually (open YouTube, Discord, etc.).
+The presets use the format and capabilities of **Zapret 2**.
 
-### Which preset to use
+Original project:
 
-- **Default:** `Universal_V2_1.txt`.
-- **If Discord text works but voice calls don't (no audio/video in voice channels):** switch to `Universal_V2_1_voice_ALT.txt`.
+[Zapret 2](https://github.com/youtubediscord/zapret?utm_source=chatgpt.com)
 
-### Zapret2 + Happ VPN
+### Troubleshooting
 
-I run Zapret 2 alongside Happ VPN — the VPN is enabled only for selected apps, not globally, so Zapret keeps handling the rest of the traffic directly.
+If a service does not work with a preset:
 
-### Rule structure (brief)
-
-Each `--new` block is a separate rule for a specific domain/list/protocol. Main strategies used:
-- `multidisorder` — for TCP/TLS ClientHello (YouTube, social media, AI services, torrents)
-- `send + syndata` — for Discord (text/media)
-- `fake` (quic/stun blobs) — for UDP/QUIC/voice
+1. Check your DNS configuration.
+2. Run BlockCheck/diagnostics.
+3. Try another preset.
+4. Check whether VPN or other network software affects the connection.
+5. Make sure NetZapret and the preset are up to date.
 
 ### Disclaimer
 
-These presets are provided "as is" for educational purposes and personal internet use. The author is not responsible for any use that violates the laws of your jurisdiction.
+Presets are provided **“as is”** for personal and educational use.
+
+Results may vary depending on the ISP, network configuration, NetZapret/Zapret 2 version, and current blocking methods.
+
+Users are responsible for complying with the laws applicable in their jurisdiction.
